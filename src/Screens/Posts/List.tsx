@@ -1,6 +1,14 @@
 import { Box } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
+import {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import type { Post } from "../../api/types";
@@ -12,7 +20,7 @@ import { PAGE_SIZE } from "../../constants/api";
 import { relativePaths } from ".";
 
 const getElementScrolledBottom = (el: HTMLDivElement) =>
-  el.scrollHeight - el.scrollTop - el.clientHeight < 500;
+  el.scrollHeight - el.scrollTop - el.clientHeight < 1500;
 
 const PostItem: FC<Post> = memo(({ id, title, body, userId }) => {
   const { data: author } = useQuery({
@@ -76,15 +84,19 @@ const PostList = () => {
 
   useEffect(checkPage, [checkPage]);
 
+  const numberOfVisiblePosts = useMemo(() => (page + 1) * PAGE_SIZE, [page]);
+
   return (
     <Box
       ref={ref}
       w="100vw"
       h="100vh"
       overflow="hidden auto"
-      onScroll={checkPage}
+      onScroll={
+        numberOfVisiblePosts < (posts?.length ?? 0) ? checkPage : undefined
+      }
     >
-      {posts?.slice(0, (page + 1) * PAGE_SIZE)?.map((post) => (
+      {posts?.slice(0, numberOfVisiblePosts)?.map((post) => (
         <PostItem key={post.id} {...post} />
       ))}
     </Box>
