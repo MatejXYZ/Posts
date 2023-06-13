@@ -5,6 +5,8 @@ import { FC, memo } from "react";
 import type { Post } from "../../api/types";
 
 import { getPostComments, getPosts, getUser } from "../../api/requests";
+import { useNavigate } from "react-router-dom";
+import { relativePaths } from ".";
 
 const PostItem: FC<Post> = memo(({ id, title, body, userId }) => {
   const { data: author } = useQuery({
@@ -17,20 +19,39 @@ const PostItem: FC<Post> = memo(({ id, title, body, userId }) => {
     queryFn: () => getPostComments({ id }),
   });
 
+  const navigate = useNavigate();
+
   return (
     <Box bg="sandybrown" margin="5px">
       <Box>
         <b>{title}</b>
       </Box>
-      <Box>{author?.username}</Box>
+      <Box>{author?.name}</Box>
       <Box>{body}</Box>
-      <Box>{postComments?.length}</Box>
+      <Box
+        textDecor="underline"
+        cursor="pointer"
+        onClick={() => {
+          navigate(`/${relativePaths.detail}/1`);
+        }}
+      >
+        show more
+      </Box>
+      <Box
+        textDecor="underline"
+        cursor="pointer"
+        onClick={() => {
+          navigate(`/${relativePaths.detail}/1`);
+        }}
+      >
+        comments {postComments?.length}
+      </Box>
     </Box>
   );
 });
 
 const PostList = () => {
-  const { data: posts } = useQuery<Post[]>({
+  const { data: posts } = useQuery({
     queryKey: ["posts"],
     queryFn: getPosts,
   });

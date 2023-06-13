@@ -7,12 +7,11 @@ export type Post = {
 
 export type User = {
   id: number;
-  username: string;
+  name: string;
 };
 
 export type Comment = {
-  id: number;
-  postId: number;
   name: string;
   body: string;
+  email: string;
 };
