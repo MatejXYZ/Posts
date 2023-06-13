@@ -1,19 +1,24 @@
 import { RecoilRoot } from "recoil";
 import { ChakraProvider } from "@chakra-ui/react";
+import { QueryClientProvider } from "react-query";
+import { BrowserRouter } from "react-router-dom";
+
+import queryClient from "./api/queryClient";
 
 import Posts from "./Screens/Posts";
 
 import theme from "./theme";
-import { BrowserRouter } from "react-router-dom";
 
 export const App = () => {
   return (
     <RecoilRoot>
-      <BrowserRouter>
-        <ChakraProvider theme={theme}>
-          <Posts />
-        </ChakraProvider>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <ChakraProvider theme={theme}>
+            <Posts />
+          </ChakraProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 };
