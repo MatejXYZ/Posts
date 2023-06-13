@@ -1,12 +1,18 @@
 import { Box } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import { FC, memo } from "react";
+import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import type { Post } from "../../api/types";
 
 import { getPostComments, getPosts, getUser } from "../../api/requests";
-import { useNavigate } from "react-router-dom";
+
+import { PAGE_SIZE } from "../../constants/api";
+
 import { relativePaths } from ".";
+
+const getElementScrolledBottom = (el: HTMLDivElement) =>
+  el.scrollHeight - el.scrollTop - el.clientHeight < 500;
 
 const PostItem: FC<Post> = memo(({ id, title, body, userId }) => {
   const { data: author } = useQuery({
@@ -56,9 +62,29 @@ const PostList = () => {
     queryFn: getPosts,
   });
 
+  const [page, setPage] = useState(0);
+
+  const ref = useRef<null | HTMLDivElement>(null);
+
+  const checkPage = useCallback(() => {
+    const target = ref.current;
+
+    if (target && getElementScrolledBottom(target)) {
+      setPage((prev) => (prev === posts?.length ? prev : prev + 1));
+    }
+  }, [posts?.length]);
+
+  useEffect(checkPage, [checkPage]);
+
   return (
-    <Box w="100vw" h="100vh" overflow="hidden auto">
-      {posts?.map((post) => (
+    <Box
+      ref={ref}
+      w="100vw"
+      h="100vh"
+      overflow="hidden auto"
+      onScroll={checkPage}
+    >
+      {posts?.slice(0, (page + 1) * PAGE_SIZE)?.map((post) => (
         <PostItem key={post.id} {...post} />
       ))}
     </Box>
