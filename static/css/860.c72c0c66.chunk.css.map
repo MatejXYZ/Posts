@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/860.c72c0c66.chunk.css","mappings":"AAAA,iBAGE,2BAA4B,CAC5B,oBAAqB,CAFrB,mBAAoB,CADpB,eAIF","sources":["Screens/Posts/List/textOverflow.css"],"sourcesContent":[".text-overflow-2 {\n  overflow: hidden;\n  display: -webkit-box;\n  -webkit-box-orient: vertical;\n  -webkit-line-clamp: 2;\n}\n"],"names":[],"sourceRoot":""}
