@@ -9,9 +9,12 @@ const variantRound = defineStyle((props) => {
     c === "white"
       ? {
           bg: colors.white,
-          color: colors.black,
+          color: colors.green,
+          borderColor: colors.black,
           _hover: {
-            bg: colors.gray,
+            bg: colors.green,
+            color: colors.white,
+            borderColor: colors.green,
             _disabled: {
               bg: colors.white,
             },
@@ -34,6 +37,7 @@ const variantRound = defineStyle((props) => {
     fontWeight: "normal",
     px: "1.25rem",
     transition: "none",
+    border: "solid",
     ...colorStyle,
   };
 });

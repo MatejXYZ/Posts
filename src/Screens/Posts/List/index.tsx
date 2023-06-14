@@ -6,6 +6,11 @@ import { getPosts } from "../../../api/requests";
 
 import { PAGE_SIZE } from "../../../constants/api";
 
+import PostItem from "./Item";
+
+import "./textOverflow.css";
+import colors from "../../../colors";
+
 const getElementScrolledBottom = (el: HTMLDivElement) =>
   el.scrollHeight - el.scrollTop - el.clientHeight < 1500;
 
@@ -15,7 +20,7 @@ const PostList = () => {
     queryFn: getPosts,
   });
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1); // NOTE - start with 2 pages loaded to have some data
 
   const ref = useRef<null | HTMLDivElement>(null);
 
@@ -33,17 +38,23 @@ const PostList = () => {
 
   return (
     <Box
+      w="full"
+      bg={colors.white}
+      color={colors.black}
       ref={ref}
-      w="100vw"
-      h="100vh"
       overflow="hidden auto"
       onScroll={
         numberOfVisiblePosts < (posts?.length ?? 0) ? checkPage : undefined
       }
+      display="flex"
+      justifyContent="center"
+      padding="8px"
     >
-      {posts?.slice(0, numberOfVisiblePosts)?.map((post) => (
-        <PostItem key={post.id} {...post} />
-      ))}
+      <Box display="flex" flexWrap="wrap" justifyContent="center" maxW="1400px">
+        {posts?.slice(0, numberOfVisiblePosts)?.map((post) => (
+          <PostItem key={post.id} {...post} />
+        ))}
+      </Box>
     </Box>
   );
 };
