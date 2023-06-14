@@ -103,4 +103,5 @@ const PostDetail = () => {
     </VStack>
   );
 };
+
 export default PostDetail;

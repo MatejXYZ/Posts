@@ -1,6 +1,13 @@
 import { Box } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { getPosts } from "../../../api/requests";
 
@@ -52,7 +59,9 @@ const PostList = () => {
     >
       <Box display="flex" flexWrap="wrap" justifyContent="center" maxW="1400px">
         {posts?.slice(0, numberOfVisiblePosts)?.map((post) => (
-          <PostItem key={post.id} {...post} />
+          <Suspense fallback={null}>
+            <PostItem key={post.id} {...post} />
+          </Suspense>
         ))}
       </Box>
     </Box>
