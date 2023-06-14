@@ -1,5 +1,5 @@
 import { useMemo, lazy, Suspense } from "react";
-import { Center, Flex, Spinner } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import {
   useRoutes,
   useLocation,
@@ -40,15 +40,7 @@ const Posts = () => {
 
   return (
     <Flex w="100vw" h="100vh" overflow="auto hidden">
-      <Suspense
-        fallback={
-          <Center h="full">
-            <Spinner />
-          </Center>
-        }
-      >
-        {routes}
-      </Suspense>
+      <Suspense fallback={null}>{routes}</Suspense>
     </Flex>
   );
 };
